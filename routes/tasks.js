@@ -4,8 +4,13 @@ const models = require('../models');
 const Task = models.Task;
 
 /* GET tasks listing. */
-router.get('/', function(req, res, next) {
-  res.send('Get Task');
+router.get('/', async function(req, res, next) {
+    const tasks = await Task.findAll();
+    // console.log(tasks.every(task => task instanceof Task)); // true
+    // console.log("All tasks:", JSON.stringify(tasks, null, 2));
+    res.json({
+        Tasks: tasks
+    })
 });
 
 /* POST tasks listing. */
@@ -15,13 +20,13 @@ router.post('/', function(req, res, next) {
     status: req.body.status
   },
   ])
-      .then((newUsers) => {
+      .then((newTask) => {
         res.json({
           Tarefa: req.body.tarefa,
           Status: req.body.status,
           Return: "Success"
         })
-        console.log(newUsers)
+        console.log(newTask)
       })
       .catch((err) => {
         res.json({
